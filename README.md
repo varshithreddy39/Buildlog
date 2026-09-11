@@ -11,7 +11,7 @@ Buildlog is a collection of projects built progressively as I explore AI/ML, Gen
 | #  | Project | Description | Status |
 |----|---------|-------------|--------|
 | 01 | [Adaptive RAG Pipeline](./01-adaptive-rag-pipeline/) | Hybrid retrieval, multi-query expansion, reranking, evaluation and RAG | Completed |
-| 02 | [Agentic Adaptive RAG](./02-agentic-adaptive-rag/) | Agents, tools, memory, planning and orchestration built on the RAG foundation | In Progress |
+| 02 | [Agentic Adaptive RAG](./agentic-adaptive-rag/) | Agents, tools, memory, planning and orchestration built on the RAG foundation | In Progress |
 
 > New projects will be added as the buildlog evolves.
 

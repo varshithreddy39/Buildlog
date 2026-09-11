@@ -119,6 +119,89 @@ flowchart TD
 
 ---
 
+## backend/rag Architecture
+
+How the modules inside `backend/rag/` are wired together at runtime.
+
+```mermaid
+flowchart TD
+    subgraph pipeline["rag/pipline.py — RAGPipeline"]
+        direction TB
+        run["run(query)"]
+    end
+
+    subgraph retriever["rag/retriever/"]
+        Hybrid["hybrid.py\nHybridRetriever"]
+        Vector["vector.py\nVectorRetriver"]
+        BM25["bm25.py\nSparseRetriever"]
+        MQR["mqr.py\nMultiQueryRetriever"]
+        Reranker["reranker.py\nReranker"]
+    end
+
+    subgraph infra["rag/"]
+        Embeddings["embeddings.py\nEmbeddingManager\nBAAI/bge-small-en-v1.5"]
+        VectorStore["vector.py\nVectorStoreManager\nQdrant"]
+    end
+
+    subgraph llm_layer["rag/llm/"]
+        LLM["llm.py\nLLMManager\nQwen3-30B via OpenRouter"]
+    end
+
+    subgraph prompts["rag/prompts/"]
+        SystemPrompt["system_prompt.py"]
+        MQRPrompt["mqr_prompt.py"]
+        PromptBuilder["prompt_builder.py\nPromptBuilder"]
+    end
+
+    subgraph config["config/"]
+        Settings["settings.py\nSettings"]
+    end
+
+    run --> Hybrid
+    run --> Reranker
+    run --> MQR
+    run --> PromptBuilder
+    run --> LLM
+
+    Hybrid --> Vector
+    Hybrid --> BM25
+
+    Vector --> Embeddings
+    Vector --> VectorStore
+
+    MQR --> LLM
+    MQR --> MQRPrompt
+    MQR --> Hybrid
+
+    PromptBuilder --> SystemPrompt
+
+    Embeddings --> Settings
+    VectorStore --> Settings
+    LLM --> Settings
+    Reranker --> Settings
+    MQR --> Settings
+```
+
+**Module responsibilities:**
+
+| Module | Responsibility |
+|---|---|
+| `pipline.py` | Orchestrates the full query flow end-to-end |
+| `embeddings.py` | Generates query and document vectors using `bge-small-en-v1.5` |
+| `vector.py` | Manages Qdrant collection — create, upsert, search, dedup |
+| `retriever/vector.py` | Wraps EmbeddingManager + VectorStoreManager into a retriever |
+| `retriever/bm25.py` | BM25 sparse retriever, index built at ingestion time |
+| `retriever/hybrid.py` | Combines dense + BM25 results using RRF fusion |
+| `retriever/mqr.py` | Generates 4 query variants via LLM, runs hybrid per variant |
+| `retriever/reranker.py` | Scores and reranks docs using `bge-reranker-v2-m3` |
+| `llm/llm.py` | LangChain wrapper for OpenRouter — plain and structured outputs |
+| `prompts/prompt_builder.py` | Formats retrieved docs + query into final LLM messages |
+| `prompts/mqr_prompt.py` | Prompt template for MQR query generation |
+| `prompts/system_prompt.py` | System-level behavior instructions for the LLM |
+| `config/settings.py` | Single source of truth for all model, infra, and tuning config |
+
+---
+
 ## Project Structure
 
 ```text

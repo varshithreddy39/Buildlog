@@ -247,5 +247,4 @@ LangSmith Observability
 [GitHub](https://github.com/varshithreddy39)
 
 ## 📄 License
-
-MIT License
+This repository is licensed under the [MIT License](./license).

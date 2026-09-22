@@ -1,0 +1,8 @@
+langgraph
+langchain
+langchain-openrouter
+langchain-community
+pydantic
+python-dotenv
+serpapi
+langsmith

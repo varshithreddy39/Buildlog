@@ -1,0 +1,6 @@
+[project]
+name = "agenttrace"
+version = "0.1.0"
+description = "A LangGraph-based tool-calling AI agent with web search, calculator tools, and LangSmith observability."
+readme = "README.md"
+requires-python = ">=3.11"

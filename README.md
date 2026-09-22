@@ -12,7 +12,8 @@ Buildlog is a collection of projects built progressively as I explore AI/ML, Gen
 |---|---------|-------------|
 | 01 | [Adaptive RAG Pipeline](./01-adaptive-rag-pipeline/) | Hybrid retrieval, multi-query expansion, reranking, evaluation and RAG |
 | 02 | [AgentPlanExecutor](./AgentPlanExecutor/) | Dynamic planning, dependency-aware scheduling, parallel execution, evaluation, replanning and state reconciliation |
-| 03 | [Agentic Adaptive RAG](./agentic-adaptive-rag/) | Agents, tools, memory, planning and orchestration built on the RAG foundation |
+| 03 | [AgentTrace](./agenttrace/) | LangGraph-based tool-calling agent with web search, calculator tools, memory, persistence and LangSmith observability |
+| 04 | [Agentic Adaptive RAG](./agentic-adaptive-rag/) | Agents, tools, memory, planning and orchestration built on the RAG foundation |
 
 > New projects will be added as the buildlog evolves.
 
